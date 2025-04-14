@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from os import getenv
 # import os
 from pathlib import Path
 
@@ -30,7 +31,7 @@ SECRET_KEY = "django-insecure-93n4we=^o)a-^8r0+4zqpdmqfe(3&5q#f$_99*z#7+%9b2h&j=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','10.0.2.2']
 
 
 # Application definition
@@ -135,8 +136,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CORS Configuration
-CORS_ALLOWED_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    getenv('FRONTEND_URL', 'http://localhost:8081'),
+]
+
+# Nếu muốn cho phép tất cả nguồn gốc (không khuyến khích trong sản xuất):
+# CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = "api.Member"
