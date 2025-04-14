@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Home System – Django Models</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        padding: 20px;
+        background: #fdfdfd;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 10px;
+        overflow-x: auto;
+        border-left: 3px solid #ccc;
+        margin-top: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background: #eee;
+      }
+      ul {
+        margin-left: 20px;
+      }
+      hr {
+        margin: 40px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🏠 Smart Home System – Django Models</h1>
+    <h2>🚀 Công nghệ sử dụng</h2>
+    <ul>
+      <li>
+        Framework: <strong>Django</strong> kết hợp với
+        <strong>Django REST Framework</strong> để xây dựng API.
+      </li>
+      <li>
+        Tất cả các model đều có <strong>serializer</strong> riêng để xử lý dữ
+        liệu JSON.
+      </li>
+      <li>Dự án được xây dựng và <strong>đảm bảo có thể chạy được</strong>.</li>
+      <li>
+        API REST hỗ trợ đầy đủ chức năng CRUD cho tất cả các thực thể: thành
+        viên, thiết bị, và phân quyền.
+      </li>
+    </ul>
+
+    <hr />
+
+    <h2>📌 Mục tiêu dự án</h2>
+    <ul>
+      <li>Quản lý <strong>thành viên</strong> trong nhà.</li>
+      <li>Quản lý <strong>thiết bị</strong> như đèn, cửa, cảm biến…</li>
+      <li>
+        Gán <strong>quyền điều khiển thiết bị</strong> cho từng thành viên.
+      </li>
+      <li>Hiển thị thiết bị tương ứng với người dùng đã đăng nhập.</li>
+    </ul>
+
+    <hr />
+
+    <h2>👤 1. Thành viên (<code>Member</code>)</h2>
+
+    <h3>🔍 Giải thích:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Trường</th>
+          <th>Kiểu dữ liệu</th>
+          <th>Mô tả</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>username</td>
+          <td>CharField</td>
+          <td>Tên đăng nhập (Django có sẵn)</td>
+        </tr>
+        <tr>
+          <td>email</td>
+          <td>EmailField</td>
+          <td>Email người dùng</td>
+        </tr>
+        <tr>
+          <td>phone</td>
+          <td>CharField</td>
+          <td>Số điện thoại</td>
+        </tr>
+        <tr>
+          <td>avatar</td>
+          <td>ImageField</td>
+          <td>Ảnh đại diện</td>
+        </tr>
+        <tr>
+          <td>is_admin</td>
+          <td>BooleanField</td>
+          <td>Quản trị viên (toàn quyền)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+    <h2>💡 2. Thiết bị (<code>Device</code>)</h2>
+
+    <h3>🔍 Giải thích:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Trường</th>
+          <th>Kiểu dữ liệu</th>
+          <th>Mô tả</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>name</td>
+          <td>CharField</td>
+          <td>Tên thiết bị (VD: đèn bếp)</td>
+        </tr>
+        <tr>
+          <td>device_type</td>
+          <td>CharField</td>
+          <td>Loại thiết bị (đèn, quạt, cửa, cảm biến)</td>
+        </tr>
+        <tr>
+          <td>room</td>
+          <td>CharField</td>
+          <td>Vị trí lắp đặt thiết bị</td>
+        </tr>
+        <tr>
+          <td>status</td>
+          <td>BooleanField</td>
+          <td>Bật/tắt (True/False)</td>
+        </tr>
+        <tr>
+          <td>last_updated</td>
+          <td>DateTimeField</td>
+          <td>Thời gian cập nhật gần nhất</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+    <h2>🔐 3. Phân quyền thiết bị (<code>DevicePermission</code>)</h2>
+
+    <h3>🔍 Giải thích:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Trường</th>
+          <th>Kiểu dữ liệu</th>
+          <th>Mô tả</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>user</td>
+          <td>ForeignKey</td>
+          <td>Người dùng được gán quyền</td>
+        </tr>
+        <tr>
+          <td>device</td>
+          <td>ForeignKey</td>
+          <td>Thiết bị được phân quyền</td>
+        </tr>
+        <tr>
+          <td>can_control</td>
+          <td>BooleanField</td>
+          <td>Quyền điều khiển (bật/tắt)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+    <h2>📏 Quan hệ giữa các bảng</h2>
+    <ul>
+      <li>
+        Một <strong>thành viên</strong> có thể được phép điều khiển nhiều
+        <strong>thiết bị</strong>.
+      </li>
+      <li>
+        Một <strong>thiết bị</strong> có thể được điều khiển bởi nhiều
+        <strong>thành viên</strong>.
+      </li>
+      <li>
+        Bảng trung gian <code>DevicePermission</code> giúp xác định quyền điều
+        khiển cụ thể cho từng mối quan hệ.
+      </li>
+    </ul>
+  </body>
+</html>
